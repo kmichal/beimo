@@ -1,0 +1,27 @@
+{
+  "name": "beimo",
+  "description": "Better Interface for Motion",
+  "version": "0.0.1",
+  "private": false,
+  "author": "Michal Krasucki <mkrasucki@gmail.com> (http://kmichal.github.com)",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "express": "4.x.x",
+    "cookie-parser": ">=0.0.0",
+    "express-session":">=0.0.0",
+    "morgan":">=0.0.0",
+    "method-override":">0.0.0",
+    "mongoose": ">0.0.0",
+    "body-parser":">=0.0.0",
+    "connect-flash": "0.1.x",
+    "ejs": ">= 0.0.0",
+    "ejs-locals": ">= 0.0.0",
+    "passport": ">= 0.0.0",
+    "passport-local": ">= 0.0.0",
+    "bcrypt-nodejs": "latest",
+    "static-favicon": "~1.0.0",
+    "debug": "~0.7.4"
+  }
+}
