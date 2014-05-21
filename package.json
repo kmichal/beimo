@@ -17,6 +17,7 @@
     "ejs-locals": ">= 0.0.0",
     "passport": ">= 0.0.0",
     "passport-local": ">= 0.0.0",
-    "bcrypt-nodejs": "latest"
+    "bcrypt-nodejs": "latest",
+    "async": "latest"
   }
 }

@@ -2,25 +2,13 @@
 var util = require('util');
 var userMgmt = require('../controllers/user');
 var cameraMgmt = require('../controllers/camera');
+var appMgmt = require('../controllers/application');
 
 var utils = require('./utils');
 
 module.exports = function(app, passport, mongoose) {
 
-app.get('/', utils.ensureAuthenticated,userMgmt.displayHome); 
-
-  /*function(req, res){
-  if(userMgmt.accountExists){
-    res.render('index', { 
-  	 user: req.user, 
-  	 page_title: 'Home' });
-  }
-  else
-  {
-    res.redirect('/createaccount');
-  }
-});
-*/
+app.get('/', utils.ensureAuthenticated, appMgmt.displayHome); 
 
 
 app.get('/login', function(req, res){
@@ -52,16 +40,17 @@ app.post('/createaccount',
 
 
 
-app.get('/configure', userMgmt.configureform);
+app.get('/configure',  appMgmt.configurepage);
 //, utils.ensureAuthenticated
 
 
 
 
 //Camera operations
+//@TODO Add require login
 app.post('/camera/add', cameraMgmt.add);
 
-
+app.post('camera/delete/:camId', cameraMgmt.delete);
 
 
 app.get('/logout', userMgmt.logout);

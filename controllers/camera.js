@@ -17,11 +17,20 @@ var mongoose = require('mongoose')
 
     newcam.save(function(err) {
         if (err)
+        {
             throw err;
-        	//res.redirect('/configure');
+            res.json(err);
+        }	//res.redirect('/configure');
     });
 
 
- 	res.redirect('/configure');
+ 	res.json({message: "ok"});
  } 
  
+ exports.getAll = function (callback) {
+    Camera.find().exec(callback);
+}
+
+exports.delete = function (req, res) {
+    
+}

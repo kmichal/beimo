@@ -5,7 +5,27 @@
         <h3 class="panel-title">Cameras</h3>
      </div>
      <div class="panel-body">
- 					<h3>No Cameras</h3>
+     			<% if (cameras.length > 0) { %>
+     				<table class="table table-striped">
+     					<tbody>
+     				<% cameras.forEach(function(camera) { %>
+     					<tr id="<%= camera._id %>">
+   							<td><%= camera.nickname %></td>
+   							<td><%= camera.ipaddress %></td>
+   							<td><%= camera._id %></td>
+   							<td>
+   								<button type="button" role="edit" class="btn btn-success btn-sm">Edit</button>
+   							</td>
+   							<td>
+   								<button type="button" role="delete" class="btn btn-danger btn-sm">Delete</button>
+   							</td>
+   						</tr>
+					<% }) %>
+						</tbody>
+                	</table>
+              	<%} else{ %>
+ 					<h3 class="text-center">No Cameras</h3>
+ 				<% } %>
      	<button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#addcamera">Add Camera</button>
      </div>
 </div> 
@@ -17,9 +37,9 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="addCameraModalLabel">Add Camera</h4>
       </div>
-      <form name="addcameraform" method="post" action="/camera/add" class="config-form" role="form">
+      <form id="addcameraform" method="post" action="/camera/add" class="config-form" role="form">
 	      <div class="modal-body">
-	   
+	   			<div id="addcameraalert" ></div>
 	      		<div class="form-group">
 	      			<input type="text" class="form-control" placeholder="Nickname e.g. Front Porch" name="nickname" required autofocus>
 	      		</div>
@@ -58,12 +78,25 @@
 <script src="/js/bootstrap-switch.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		$('form[name=addcameraform]').submit(function(){
+		$("#addcameraform").submit(function(e){
+			e.preventDefault();
 		    $.post($(this).attr('action'), $(this).serialize(), function(json) {
-		      alert(json);
+		      	if(json.message == 'ok')
+		      	{
+		      		$('#addcamera').modal('hide');
+		      	}
+		      	else{
+		      		$("#addcameraalert").html(json.message).addClass("alert alert-danger");
+		      	}
 		    }, 'json');
 		    return false;
-		  });
+		});
+		
 		$("#usingmotion").bootstrapSwitch();
+
+		$('#addcamera').on('hidden.bs.modal', function (e) {
+  			$("#addcameraalert").removeClass("alert alert-danger").empty();
+  			$("#addcameraform :input").val('');
+		});
 	});
 </script>

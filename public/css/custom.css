@@ -50,3 +50,8 @@ body {
 .config-form div input, .bootstrap-switch {
   margin-bottom: 10px;
 }
+
+
+.footer {
+  margin-top: 50px;
+}
