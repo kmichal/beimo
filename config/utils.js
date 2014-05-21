@@ -22,3 +22,18 @@ exports.ensureAuthenticated = function(req, res, next) {
 	        }
 	});
 }
+
+
+function encryptString(text){
+  var cipher = crypto.createCipher('aes-256-cbc','Lf9Jk7EVGR%@oeEUFGylgzNrobFvA/GWllMULGJH7qD6I')
+  var crypted = cipher.update(text,'utf8','hex')
+  crypted += cipher.final('hex');
+  return crypted;
+}
+ 
+function decryptString(text){
+  var decipher = crypto.createDecipher('aes-256-cbc','Lf9Jk7EVGR%@oeEUFGylgzNrobFvA/GWllMULGJH7qD6I')
+  var dec = decipher.update(text,'hex','utf8')
+  dec += decipher.final('utf8');
+  return dec;
+}

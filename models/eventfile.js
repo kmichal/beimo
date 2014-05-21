@@ -1,18 +1,12 @@
-// model/camera.js
+// model/eventfile.js
 
 var mongoose = require('mongoose');
 
 // define the schema for our user model
-var cameraSchema = mongoose.Schema({
+var eventFileSchema = mongoose.Schema({
         cameraid	: Number,
-        nickname	: String,
-        ipaddress	: String,
-        camusername	: String,
-        campassword	: String,
-        usingMotion	: Boolean,
-        motionDir	: String,
-        liveMotion	: Boolean,
-        liveimgUrl	: String
+        time		: Date,
+        filename	: String
 });
 
 /*
@@ -29,4 +23,4 @@ userSchema.methods.validPassword = function(password) {
 */
 
 // create the model for cameras and expose it to our app
-mongoose.model('Camera', cameraSchema);
+mongoose.model('EvenFile', eventFileSchema);

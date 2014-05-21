@@ -8,6 +8,7 @@ var config = require('./config/config.js');
 
 //Load models
 require('./models/user');
+require('./models/camera');
 
 
 //Initialize passport

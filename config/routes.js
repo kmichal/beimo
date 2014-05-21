@@ -1,6 +1,7 @@
 
 var util = require('util');
 var userMgmt = require('../controllers/user');
+var cameraMgmt = require('../controllers/camera');
 
 var utils = require('./utils');
 
@@ -51,7 +52,15 @@ app.post('/createaccount',
 
 
 
-app.get('/configure', utils.ensureAuthenticated, userMgmt.configureform);
+app.get('/configure', userMgmt.configureform);
+//, utils.ensureAuthenticated
+
+
+
+
+//Camera operations
+app.post('/camera/add', cameraMgmt.add);
+
 
 
 

@@ -1,3 +1,69 @@
 <% layout('layout') -%>
-<% var current='configure' -%>
-<h1>Configuration Page</h1>
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+        <h3 class="panel-title">Cameras</h3>
+     </div>
+     <div class="panel-body">
+ 					<h3>No Cameras</h3>
+     	<button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#addcamera">Add Camera</button>
+     </div>
+</div> 
+
+<div class="modal fade" id="addcamera" tabindex="-1" role="dialog" aria-labelledby="addCameraModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="addCameraModalLabel">Add Camera</h4>
+      </div>
+      <form name="addcameraform" method="post" action="/camera/add" class="config-form" role="form">
+	      <div class="modal-body">
+	   
+	      		<div class="form-group">
+	      			<input type="text" class="form-control" placeholder="Nickname e.g. Front Porch" name="nickname" required autofocus>
+	      		</div>
+	      		<div class="form-group">
+					<input type="text" class="form-control" placeholder="IP Address e.g. 192.168.0.10" name="ipaddress" required>
+				</div>
+				<div class="form-group">
+					<label for="usingmotion">Managed by motion? </label>
+					<input type="checkbox" name="usingmotion" id="usingmotion" checked data-size="small" data-on-text="Yes" data-off-text="No">
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Full path to camera images" name="motiondir" required>
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="URL to the live view on the camera" name="liveimgurl" required>
+				</div>
+			
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+	        <button id="addcamerabtn" type="submit" class="btn btn-primary">Add</button>
+	      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script src="/js/bootstrap-switch.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('form[name=addcameraform]').submit(function(){
+		    $.post($(this).attr('action'), $(this).serialize(), function(json) {
+		      alert(json);
+		    }, 'json');
+		    return false;
+		  });
+		$("#usingmotion").bootstrapSwitch();
+	});
+</script>
