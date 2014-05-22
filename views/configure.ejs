@@ -6,23 +6,27 @@
      </div>
      <div class="panel-body">
      			<% if (cameras.length > 0) { %>
-     				<table class="table table-striped">
-     					<tbody>
-     				<% cameras.forEach(function(camera) { %>
-     					<tr id="<%= camera._id %>">
-   							<td><%= camera.nickname %></td>
-   							<td><%= camera.ipaddress %></td>
-   							<td><%= camera._id %></td>
-   							<td>
-   								<button type="button" role="edit" class="btn btn-success btn-sm">Edit</button>
-   							</td>
-   							<td>
-   								<button type="button" role="delete" class="btn btn-danger btn-sm">Delete</button>
-   							</td>
-   						</tr>
-					<% }) %>
-						</tbody>
-                	</table>
+     				<div class="table-responsive">
+	     				<table class="table table-striped table-condensed">
+	     					<tbody>
+	     				<% cameras.forEach(function(camera) { %>
+	     					<tr id="<%= camera._id %>">
+	   							<td><%= camera.nickname %></td>
+	   							<td><%= camera.ipaddress %></td>
+	   							<td>
+	   								<button type="button" role="more" class="btn btn-info btn-sm">More</button>
+	   							</td>
+	   							<td>
+	   								<button type="button" role="edit" class="btn btn-success btn-sm">Edit</button>
+	   							</td>
+	   							<td>
+	   								<button type="button" role="delete" class="btn btn-danger btn-sm">Delete</button>
+	   							</td>
+	   						</tr>
+						<% }) %>
+							</tbody>
+	                	</table>
+	                </div>
               	<%} else{ %>
  					<h3 class="text-center">No Cameras</h3>
  				<% } %>
@@ -83,7 +87,8 @@
 		    $.post($(this).attr('action'), $(this).serialize(), function(json) {
 		      	if(json.message == 'ok')
 		      	{
-		      		$('#addcamera').modal('hide');
+		      		window.location = "/configure";
+		      		//$('#addcamera').modal('hide');
 		      	}
 		      	else{
 		      		$("#addcameraalert").html(json.message).addClass("alert alert-danger");
@@ -91,7 +96,32 @@
 		    }, 'json');
 		    return false;
 		});
-		
+		$('button[role="delete"]').click(function (e){
+			//alert($(this).closest( "tr" ).attr("id"));
+
+			$.getJSON( "/camera/delete/" + $(this).closest( "tr" ).attr("id")).done(function( data ) {
+      			if(data.message == 'ok'){
+      				window.location = "/configure";
+      			}
+      			else {
+      				alert(data.message);
+      			}
+      		});
+
+
+
+
+		});
+
+		$('button[role="edit"]').click(function (e){
+			alert('edit clicked');
+			//alert(this.closest( "tr" ).attr("id"));
+		});
+
+		$('button[role="more"]').click(function (e){
+			alert('more clicked');
+			//alert(this.closest( "tr" ).attr("id"));
+		});
 		$("#usingmotion").bootstrapSwitch();
 
 		$('#addcamera').on('hidden.bs.modal', function (e) {

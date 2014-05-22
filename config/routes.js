@@ -48,9 +48,10 @@ app.get('/configure',  appMgmt.configurepage);
 
 //Camera operations
 //@TODO Add require login
+app.param('cameraid', cameraMgmt.load);
 app.post('/camera/add', cameraMgmt.add);
 
-app.post('camera/delete/:camId', cameraMgmt.delete);
+app.get('/camera/delete/:cameraid', cameraMgmt.delete);
 
 
 app.get('/logout', userMgmt.logout);

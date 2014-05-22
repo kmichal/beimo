@@ -2,6 +2,19 @@ var mongoose = require('mongoose')
   , Camera = mongoose.model('Camera');
 
 
+
+exports.load = function(req, res, next, cameraid){
+    var Camera = mongoose.model('Camera');
+
+    Camera.findOne({_id:cameraid}, function (err, camera) {
+        if (err) return next(err);
+        if (!camera) return next(new Error('not found'));
+        req.camera = camera;
+        next();
+    })
+}
+
+
  exports.add = function (req, res) {
  	var newcam = new Camera();
 
@@ -32,5 +45,8 @@ var mongoose = require('mongoose')
 }
 
 exports.delete = function (req, res) {
-    
+    req.camera.remove(function(err){
+        res.json({message: 'ok'});
+    });
+
 }

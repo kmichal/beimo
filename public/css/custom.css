@@ -51,6 +51,9 @@ body {
   margin-bottom: 10px;
 }
 
+.table-responsive {
+  overflow-x: hidden; !impotant
+}
 
 .footer {
   margin-top: 50px;
