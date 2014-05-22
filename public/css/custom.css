@@ -52,9 +52,16 @@ body {
 }
 
 .table-responsive {
-  overflow-x: hidden; !impotant
+  /* overflow-x: hidden; !impotant */
 }
 
 .footer {
   margin-top: 50px;
+}
+
+.panel-half {
+  width: 50%;
+}
+.panel-quarter {
+  width: 25%;
 }

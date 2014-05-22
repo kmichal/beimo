@@ -19,10 +19,24 @@ exports.displayHome = function(req, res) {
             }
             if (user)
             {
-              res.render('index', { 
-      					user: req.user, 
-      					page_title: 'Home'
-  				    });
+            		async.parallel(
+				    {
+				        cameras: function(callback){
+				        	// Fetch all cameras in the system
+				        	cameraMgmt.getAll(function (err, results) {
+				        		callback(err, results);
+				        	});
+				        }
+				    }, 
+				    function(e, r){
+				        res.render('index', {
+								user : req.user,
+								cameras: r.cameras,
+								camcount: r.cameras.length,
+								page_title: 'Home' 
+							});
+				    }
+				);
             }
         });
 }

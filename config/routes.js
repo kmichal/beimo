@@ -8,7 +8,8 @@ var utils = require('./utils');
 
 module.exports = function(app, passport, mongoose) {
 
-app.get('/', utils.ensureAuthenticated, appMgmt.displayHome); 
+//@TODO Add auth requirement
+app.get('/', appMgmt.displayHome); 
 
 
 app.get('/login', function(req, res){
