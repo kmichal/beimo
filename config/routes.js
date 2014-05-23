@@ -41,7 +41,7 @@ app.post('/createaccount',
 
 
 
-app.get('/configure',  appMgmt.configurepage);
+app.get('/configure', utils.ensureAuthenticated, appMgmt.configurepage);
 //, utils.ensureAuthenticated
 
 
@@ -50,15 +50,15 @@ app.get('/configure',  appMgmt.configurepage);
 //Camera operations
 //@TODO Add require login
 app.param('cameraid', cameraMgmt.load);
-app.post('/camera/add', cameraMgmt.add);
+app.post('/camera/add', utils.ensureAuthenticated, cameraMgmt.add);
 
-app.get('/camera/delete/:cameraid', cameraMgmt.delete);
-
-
+app.get('/camera/delete/:cameraid', utils.ensureAuthenticated, cameraMgmt.delete);
 
 
 
-app.get('/live/img/:cameraid', cameraMgmt.getLiveImg); 
+
+
+app.get('/live/img/:cameraid', utils.ensureAuthenticated, cameraMgmt.getLiveImg); 
 
 
 
