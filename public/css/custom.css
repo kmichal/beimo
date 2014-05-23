@@ -59,9 +59,12 @@ body {
   margin-top: 50px;
 }
 
-.panel-half {
-  width: 50%;
+.panel-body .table {
+  margin-bottom: 15px !important;
 }
-.panel-quarter {
-  width: 25%;
+
+.hideelement {
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
 }

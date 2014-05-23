@@ -7,7 +7,7 @@
      <div class="panel-body">
      			<% if (cameras.length > 0) { %>
      				<div class="table-responsive">
-	     				<table class="table table-striped table-condensed">
+	     				<table class="table table-striped table-condensed" >
 	     					<tbody>
 	     				<% cameras.forEach(function(camera) { %>
 	     					<tr id="<%= camera._id %>">
@@ -33,6 +33,27 @@
      	<button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#addcamera">Add Camera</button>
      </div>
 </div> 
+
+<div class="panel panel-primary">
+	<div class="panel-heading clearfix">
+		<h3 class="panel-title pull-left">Preferences</h3>
+		<button type="button" role="displayprefs" class="btn btn-default btn-xs pull-right inline">show</button>
+    </div>
+    <div class="panel-body" id="prefsformcontainer">
+     	@TODO General configuration options.
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="modal fade" id="addcamera" tabindex="-1" role="dialog" aria-labelledby="addCameraModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -82,6 +103,8 @@
 <script src="/js/bootstrap-switch.min.js"></script>
 <script type="text/javascript">
 	$(function() {
+		$("#prefsformcontainer").hide();
+
 		$("#addcameraform").submit(function(e){
 			e.preventDefault();
 		    $.post($(this).attr('action'), $(this).serialize(), function(json) {
@@ -121,6 +144,17 @@
 		$('button[role="more"]').click(function (e){
 			alert('more clicked');
 			//alert(this.closest( "tr" ).attr("id"));
+		});
+
+		$('button[role="displayprefs"]').click(function(e){
+			if($(this).text() == 'show'){
+				$("#prefsformcontainer").show();
+				$(this).text('hide');
+			}
+			else{
+				$("#prefsformcontainer").hide();
+				$(this).text('show');
+			}
 		});
 		$("#usingmotion").bootstrapSwitch();
 
