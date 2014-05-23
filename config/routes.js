@@ -55,6 +55,16 @@ app.post('/camera/add', cameraMgmt.add);
 app.get('/camera/delete/:cameraid', cameraMgmt.delete);
 
 
+
+
+
+app.get('/live/img/:cameraid', cameraMgmt.getLiveImg); 
+
+
+
+
+
+
 app.get('/logout', userMgmt.logout);
 
 

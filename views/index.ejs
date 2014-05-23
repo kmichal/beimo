@@ -13,7 +13,7 @@
 			<div class="panel panel-default">
 			  <div class="panel-heading"><%= camera.nickname %></div>
 			  <div class="panel-body">
-			    <img style="max-width:100%; max-height:100%;" src="http://<%= camera.ipaddress + camera.liveimgUrl%>"/>	    
+			    <img id="<%= camera._id %>" role="camera_image" style="max-width:100%; max-height:100%;" src="/live/img/<%= camera._id%>"/>	    
 			  </div>
 			</div>
 		</div>
@@ -23,7 +23,23 @@
 
 
 <script type="text/javascript">
+
+	liveupdate = true;
+
+	function updateLiveImage(cams)
+	{
+		cams.empty();
+		cams.attr('src', '/live/img/' + cams.attr('id'));
+	}
+
 	$(function() {
-		alert($(window).width());
+
+		camImages = $('img[role="camera_image"]');
+
+
+		setInterval(function() {
+			updateLiveImage(camImages);
+		}, 100);
+
 	});
 </script>

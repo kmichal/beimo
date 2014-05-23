@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
-  , Camera = mongoose.model('Camera');
+  , Camera = mongoose.model('Camera')
+  , request = require('request');
 
 
 
@@ -42,6 +43,20 @@ exports.load = function(req, res, next, cameraid){
  
  exports.getAll = function (callback) {
     Camera.find().exec(callback);
+}
+
+exports.getLiveImg = function (req, res)
+{
+    reqUrl = 'http://' + req.camera.ipaddress + req.camera.liveimgUrl;
+
+    if (typeof req.camera.camusername != "undefined") {
+        request.get(reqUrl).auth(req.camera.camusername, req.camera.campassword, false).pipe(res);
+    }
+    else {
+        request.get(reqUrl).pipe(res);
+    }
+
+
 }
 
 exports.delete = function (req, res) {
