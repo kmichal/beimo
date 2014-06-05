@@ -96,9 +96,43 @@
   </div>
 </div>
 
+<div class="modal fade" id="moreinfo" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    	<div class="modal-header">
+        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        	<h4 class="modal-title" id="moreInfoModalLabel">Configuration Details</h4>
+    	</div>
+    	<div class="modal-body">
+        	<table class="table table-striped" id="configtable">
+        		<tbody>
 
+        		</tbody>
+			</table>
+    	</div>
+		<div class="modal-footer">
+        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    	</div>      
+    </div>
+  </div>
+</div>
 
-
+<div class="modal fade" id="editcamera" tabindex="-1" role="dialog" aria-labelledby="editCameraModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title" id="editCameraModalLabel">Edit Camera</h4>
+		</div>
+    	<div class="modal-body">
+        ...
+    	</div>
+		<div class="modal-footer">
+        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    	</div>        
+    </div>
+  </div>
+</div>
 
 
 
@@ -124,7 +158,6 @@
 		    return false;
 		});
 		$('button[role="delete"]').click(function (e){
-			//alert($(this).closest( "tr" ).attr("id"));
 
 			$.getJSON( "/camera/delete/" + $(this).closest( "tr" ).attr("id")).done(function( data ) {
       			if(data.message == 'ok'){
@@ -141,14 +174,30 @@
 		});
 
 		$('button[role="edit"]').click(function (e){
-			alert('edit clicked');
+		
+			$('#editcamera').modal('show');
 			//alert(this.closest( "tr" ).attr("id"));
+		
 		});
 
 		$('button[role="more"]').click(function (e){
-			alert('more clicked');
-			//alert(this.closest( "tr" ).attr("id"));
+
+			$.getJSON( "/camera/getconfiguration/" + $(this).closest( "tr" ).attr("id")).done(function( data ) {
+      			if(data.message == 'ok'){
+      				var table = $("#configtable tbody");
+      				$.each(data, function(i, item){
+      					if(i != 'message')
+      						table.append("<tr><td>" + i + "</td><td>" + item + "</td></tr>");
+      				});
+      				$('#moreinfo').modal('show');
+      			}
+      			else {
+      				alert(data.message);
+      			}
+      		});
 		});
+
+
 
 		$('button[role="displayprefs"]').click(function(e){
 			if($(this).text() == 'show'){
@@ -165,6 +214,10 @@
 		$('#addcamera').on('hidden.bs.modal', function (e) {
   			$("#addcameraalert").removeClass("alert alert-danger").empty();
   			$("#addcameraform :input").val('');
+		});
+
+		$('#moreinfo').on('hidden.bs.modal', function (e) {
+  			$("#configtable tbody").empty();
 		});
 	});
 </script>

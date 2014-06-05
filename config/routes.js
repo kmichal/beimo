@@ -41,7 +41,7 @@ app.post('/createaccount',
 
 
 
-app.get('/configure', utils.ensureAuthenticated, appMgmt.configurepage);
+app.get('/configure',  appMgmt.configurepage);
 //, utils.ensureAuthenticated
 
 
@@ -52,6 +52,7 @@ app.get('/configure', utils.ensureAuthenticated, appMgmt.configurepage);
 app.param('cameraid', cameraMgmt.load);
 app.post('/camera/add', utils.ensureAuthenticated, cameraMgmt.add);
 
+app.get('/camera/getconfiguration/:cameraid', cameraMgmt.getConfigInfo);
 app.get('/camera/delete/:cameraid', utils.ensureAuthenticated, cameraMgmt.delete);
 
 

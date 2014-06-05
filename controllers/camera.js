@@ -59,6 +59,30 @@ exports.getLiveImg = function (req, res)
 
 }
 
+exports.getConfigInfo = function (req, res)
+{
+    var config = {
+        "message": "ok",
+        "Nickname": req.camera.nickname,
+        "IP Address": req.camera.ipaddress,
+        "Managed by Motion": req.camera.usingMotion,
+        "Use Motion for Live View": req.camera.liveMotion,
+        "Camera Admin Username": req.camera.camusername,
+        "Camera Admin Password": req.camera.campassword,
+        "Path to Camera Images": req.camera.motionDir,
+        "Internal ID": req.camera._id
+        };
+        
+    //config.push({Nick name: "sdfds"});
+
+       // "Nickname" = req.camera.nickname,
+     //   "Live URL" = req.camera.liveimgurl
+   // ];    
+    res.json(config);    
+    //res.json(req.camera);    
+
+}
+
 exports.delete = function (req, res) {
     req.camera.remove(function(err){
         res.json({message: 'ok'});

@@ -9,9 +9,9 @@ var cameraSchema = mongoose.Schema({
         ipaddress	: String,
         camusername	: String,
         campassword	: String,
-        usingMotion	: Boolean,
+        usingMotion	: {type: Boolean, default: false},
         motionDir	: String,
-        liveMotion	: Boolean,
+        liveMotion	: {type: Boolean, default: false},
         liveimgUrl	: String
 });
 
