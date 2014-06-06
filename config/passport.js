@@ -75,20 +75,26 @@ module.exports = function(passport) {
                         return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
                     } else {
 
-                        // if there is no user with that email
-                        // create the user
-                        var newUser            = new User();
+                        if(password != req.body.password2)
+                        {
+                            return done(null, false, req.flash('signupMessage', 'Passwords do not match.'));
+                        }
+                        else{
+                            // if there is no user with that email
+                            // create the user
+                            var newUser            = new User();
 
-                        // set the user's local credentials
-                        newUser.email    = email;
-                        newUser.password = newUser.generateHash(password); // use the generateHash function in our user model
+                            // set the user's local credentials
+                            newUser.email    = email;
+                            newUser.password = newUser.generateHash(password); // use the generateHash function in our user model
 
-                        // save the user
-                        newUser.save(function(err) {
-                            if (err)
-                                throw err;
-                            return done(null, newUser);
-                        });
+                            // save the user
+                            newUser.save(function(err) {
+                                if (err)
+                                    throw err;
+                                return done(null, newUser);
+                            });
+                        }
                     }
 
                     });

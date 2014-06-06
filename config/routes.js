@@ -10,7 +10,7 @@ module.exports = function(app, passport, mongoose) {
 
 //@TODO Add auth requirement
 app.get('/', appMgmt.displayHome); 
-
+app.get('/home', appMgmt.displayHome); 
 
 app.get('/login', function(req, res){
 	res.render('login', { 
