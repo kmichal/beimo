@@ -29,11 +29,14 @@ exports.load = function(req, res, next, cameraid){
     newcam.liveMotion 	= req.body.livemotion;
     newcam.liveimgUrl  	= req.body.liveimgurl;
 
+    newcam.genUploadCreds();
+
     newcam.save(function(err) {
         if (err)
         {
             throw err;
             res.json(err);
+            //console.log(err);
         }	//res.redirect('/configure');
     });
 
@@ -70,6 +73,8 @@ exports.getConfigInfo = function (req, res)
         "Camera Admin Username": req.camera.camusername,
         "Camera Admin Password": req.camera.campassword,
         "Path to Camera Images": req.camera.motionDir,
+        "Upload Username": req.camera.uploadUsername,
+        "Upload Password": req.camera.uploadPassword,
         "Internal ID": req.camera._id
         };
         

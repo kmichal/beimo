@@ -1,6 +1,7 @@
 
 var mongoose = require('mongoose')
-  , User = mongoose.model('User');
+  , User = mongoose.model('User')
+  , crypto = require('crypto');
 
 exports.ensureAuthenticated = function(req, res, next) {
 	if (req.isAuthenticated()) { return next(); }
@@ -24,16 +25,30 @@ exports.ensureAuthenticated = function(req, res, next) {
 }
 
 
-function encryptString(text){
+exports.encryptString = function(text){
   var cipher = crypto.createCipher('aes-256-cbc','Lf9Jk7EVGR%@oeEUFGylgzNrobFvA/GWllMULGJH7qD6I')
   var crypted = cipher.update(text,'utf8','hex')
   crypted += cipher.final('hex');
   return crypted;
 }
  
-function decryptString(text){
+exports.decryptString = function(text){
   var decipher = crypto.createDecipher('aes-256-cbc','Lf9Jk7EVGR%@oeEUFGylgzNrobFvA/GWllMULGJH7qD6I')
   var dec = decipher.update(text,'hex','utf8')
   dec += decipher.final('utf8');
   return dec;
+}
+
+exports.randomString = function(howMany, chars) {
+    chars = chars 
+        || "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+    var rnd = crypto.randomBytes(howMany)
+        , value = new Array(howMany)
+        , len = chars.length;
+
+    for (var i = 0; i < howMany; i++) {
+        value[i] = chars[rnd[i] % len]
+    };
+
+    return value.join('');
 }
