@@ -41,6 +41,7 @@
     </div>
     <div class="panel-body" id="prefsformcontainer">
      	@TODO General configuration options.
+
     </div>
 </div>
 
@@ -77,8 +78,19 @@
 				</div>
 				<div class="form-group">
 					<label for="usingmotion">Managed by motion? </label>
-					<input type="checkbox" name="usingmotion" id="usingmotion" checked data-size="small" data-on-text="Yes" data-off-text="No">
+					<input type="checkbox" name="usingmotion" id="usingmotion" unchecked data-size="small" data-on-text="Yes" data-off-text="No">
 				</div>
+
+				<div id="motionsettings">
+					<div class="form-group">
+						<label for="motionthread">Thread number</label>
+						<input type="number" class="form-control" id="motionthread" name="motionthread" required>
+					</div>
+
+
+				</div>
+
+
 				<div class="form-group">
 					<input type="text" class="form-control" placeholder="Full path to camera images" name="motiondir" required>
 				</div>
@@ -142,6 +154,7 @@
 <script type="text/javascript">
 	$(function() {
 		$("#prefsformcontainer").hide();
+		$("#motionsettings").hide();
 
 		$("#addcameraform").submit(function(e){
 			e.preventDefault();
@@ -176,7 +189,6 @@
 		$('button[role="edit"]').click(function (e){
 		
 			$('#editcamera').modal('show');
-			//alert(this.closest( "tr" ).attr("id"));
 		
 		});
 
@@ -210,6 +222,16 @@
 			}
 		});
 		$("#usingmotion").bootstrapSwitch();
+		$("#usingmotion").on('switchChange.bootstrapSwitch', function(event, state) {
+			if(state){
+				$("#motionsettings").show();
+				console.log('show form');
+			}
+			else{
+				$("#motionsettings").hide();
+				console.log('hide form');
+			}
+		});
 
 		$('#addcamera').on('hidden.bs.modal', function (e) {
   			$("#addcameraalert").removeClass("alert alert-danger").empty();
@@ -219,5 +241,8 @@
 		$('#moreinfo').on('hidden.bs.modal', function (e) {
   			$("#configtable tbody").empty();
 		});
+
+
+
 	});
 </script>

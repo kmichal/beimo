@@ -68,3 +68,8 @@ body {
   visibility: hidden;
   overflow: hidden;
 }
+
+#motionthread {
+  width: 5em;
+  display: inline;
+}

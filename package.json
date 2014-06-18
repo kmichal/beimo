@@ -19,6 +19,7 @@
     "passport-local": ">= 0.0.0",
     "bcrypt-nodejs": "latest",
     "async": "latest",
-    "request": "latest"
+    "request": "latest",
+    "basic-auth": "latest"
   }
 }

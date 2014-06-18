@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
   , Camera = mongoose.model('Camera')
-  , request = require('request');
+  , request = require('request')
+  , util    =   require('util');
 
 
 
@@ -36,8 +37,7 @@ exports.load = function(req, res, next, cameraid){
         {
             throw err;
             res.json(err);
-            //console.log(err);
-        }	//res.redirect('/configure');
+        }
     });
 
 
@@ -62,6 +62,13 @@ exports.getLiveImg = function (req, res)
 
 }
 
+exports.addImage = function (req, res)
+{
+    //console.log( req.body );
+    
+    res.send('Upload OK\r\n');
+
+}
 exports.getConfigInfo = function (req, res)
 {
     var config = {
@@ -78,13 +85,8 @@ exports.getConfigInfo = function (req, res)
         "Internal ID": req.camera._id
         };
         
-    //config.push({Nick name: "sdfds"});
-
-       // "Nickname" = req.camera.nickname,
-     //   "Live URL" = req.camera.liveimgurl
-   // ];    
-    res.json(config);    
-    //res.json(req.camera);    
+   
+    res.json(config);   
 
 }
 
