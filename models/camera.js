@@ -5,12 +5,12 @@ var mongoose = require('mongoose')
 
 // define the schema for our user model
 var cameraSchema = mongoose.Schema({
-        cameraid	: Number,
         nickname	: String,
         ipaddress	: String,
         camusername	: String,
         campassword	: String,
         usingMotion	: {type: Boolean, default: false},
+        motioncamid     : Number,
         motionDir	: String,
         liveMotion	: {type: Boolean, default: false},
         liveimgUrl	: String,

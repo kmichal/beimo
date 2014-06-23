@@ -1,7 +1,12 @@
 var mongoose = require('mongoose')
   , Camera = mongoose.model('Camera')
+  , EventFile = mongoose.model('EventFile')
   , request = require('request')
-  , util    =   require('util');
+  , util    = require('util')
+  , fs      = require('fs')
+  , basicAuth = require('basic-auth')
+  , utils   = require('../config/utils')
+  , config  = require('../config/config') ;
 
 
 
@@ -64,9 +69,63 @@ exports.getLiveImg = function (req, res)
 
 exports.addImage = function (req, res)
 {
-    //console.log( req.body );
+
+    var camid = '537d55231499739f37edb9a3'; //test
+
+
+    var auth = basicAuth(req);
+    var img_path = config.imagepath();
+    var filename = '';
     
-    res.send('Upload OK\r\n');
+    //if (auth) { //The camera sent us credentials
+       // console.log(auth);
+
+
+
+        if (typeof req.headers['content-type'] != 'undefined' && req.headers['content-type'] == 'image/jpeg' ) 
+        {
+            var filename = utils.getFilenameFromHeader(req.headers['content-disposition']);
+
+            var dst = fs.createWriteStream(img_path + filename);
+            req.pipe(dst);
+            
+            req.on('end', function(){
+                //Once file is saved end the necessary record in the database
+                eventfile = new EventFile();
+                eventfile.cameraid = camid;
+                eventfile.time = Date();
+                eventfile.filename = filename;
+
+                eventfile.save(function(err) 
+                {
+                    if (err)
+                    {
+                        throw err;
+                        console.log(err);
+                    }
+                });
+
+                filename = null;
+                dst = null;
+                res.send('Upload OK\r\n');
+                
+            });
+            dst.on('error', function (err) {
+                console.log(err);
+            });
+
+        }
+
+        console.log(filename);
+
+   // }
+   // else { //If the camera did not send credentials send 401 status code
+
+    //    res.statusCode = 401;
+    //    res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
+    //    res.end('<html><body>Username & Password Required</body></html>');
+    //}
+
 
 }
 exports.getConfigInfo = function (req, res)

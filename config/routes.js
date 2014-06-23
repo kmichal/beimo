@@ -57,7 +57,7 @@ app.get('/camera/delete/:cameraid', utils.ensureAuthenticated, cameraMgmt.delete
 
 
 app.post('/upload/img', cameraMgmt.addImage);
-
+app.get('/upload/img', cameraMgmt.addImage);
 
 app.get('/live/img/:cameraid', utils.ensureAuthenticated, cameraMgmt.getLiveImg); 
 

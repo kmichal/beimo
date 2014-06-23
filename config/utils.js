@@ -40,15 +40,32 @@ exports.decryptString = function(text){
 }
 
 exports.randomString = function(howMany, chars) {
-    chars = chars 
-        || "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
-    var rnd = crypto.randomBytes(howMany)
-        , value = new Array(howMany)
-        , len = chars.length;
+  chars = chars 
+      || "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+  var rnd = crypto.randomBytes(howMany)
+      , value = new Array(howMany)
+      , len = chars.length;
 
-    for (var i = 0; i < howMany; i++) {
-        value[i] = chars[rnd[i] % len]
-    };
+  for (var i = 0; i < howMany; i++) {
+      value[i] = chars[rnd[i] % len]
+  };
 
-    return value.join('');
+  return value.join('');
+}
+
+exports.getFilenameFromHeader = function(hstring) {
+  
+  var regPattern = /"(.*?)"/;
+  regMatch = regPattern.exec(hstring);
+
+  if(regMatch[1].indexOf("/") > -1)
+  {
+    var fnArray = regMatch[1].split("/");
+    return fnArray.pop();
+
+  }
+  else
+  {
+    return regMatch[1];
+  }
 }

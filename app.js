@@ -9,7 +9,7 @@ var config = require('./config/config.js');
 //Load models
 require('./models/user');
 require('./models/camera');
-
+require('./models/eventfile');
 
 //Initialize passport
 require('./config/passport')(passport);
@@ -40,7 +40,7 @@ require('./config/routes.js')(app, passport, mongoose);
 
 
 app.listen(config.port, function() {
-  console.log('Express server listening on port 3000');
+  console.log('Express server listening on port ' + config.port);
 });
 
 
