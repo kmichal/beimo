@@ -15,7 +15,7 @@ beimo requires an installation of [Node.js](http://www.nodejs.org) and [MongoDB]
 ## Installation
 Install node.js and mongodb
 
-	$ sudo apt-get install node.js mongodb
+	$ sudo apt-get install nodejs mongodb
 
 Download beimo
 
