@@ -3,6 +3,11 @@ beimo
 
 Better Interface for Motion
 
+## ALPHA
+
+This software is currently in alpha.
+
+
 ## Dependencies
 
 beimo requires an installation of [Node.js](http://www.nodejs.org) and [MongoDB](http://www.mongodb.org).
