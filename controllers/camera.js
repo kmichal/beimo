@@ -67,32 +67,110 @@ exports.getLiveImg = function (req, res)
 
 }
 
-exports.addImage = function (req, res)
+exports.addImageAuth = function (req, res)
 {
 
-    var camid = '537d55231499739f37edb9a3'; //test
+
+    var camera = mongoose.model('Camera');
 
 
     var auth = basicAuth(req);
     var img_path = config.imagepath();
     var filename = '';
     
-    //if (auth) { //The camera sent us credentials
-       // console.log(auth);
+    if (auth) { //The camera sent us credentials
+
+            camera.findOne({ uploadUsername: auth.name, uploadPassword: auth.pass}, function (err, cam) {
+            if(err)
+            {
+                throw err;
+            }
+            else if (cam) 
+            {
+                if (typeof req.headers['content-type'] != 'undefined' && req.headers['content-type'] == 'image/jpeg' ) 
+                {
+                    var filename = utils.getFilenameFromHeader(req.headers['content-disposition']);
+
+                    if (!fs.existsSync(img_path + cam._id + '/')) {
+                        fs.mkdirSync(img_path + cam._id + '/');
+                    }
+                    var dst = fs.createWriteStream(img_path + cam._id + '/'+ filename);
+                    req.pipe(dst);
+                    
+                    req.on('end', function(){
+                        //Once file is saved end the necessary record in the database
+                        eventfile = new EventFile();
+                        eventfile.cameraid = cam._id;
+                        eventfile.time = Date();
+                        eventfile.filename = filename;
+
+                        eventfile.save(function(err) 
+                        {
+                            if (err)
+                            {
+                                throw err;
+                                console.log(err);
+                            }
+                        });
+                        console.log(filename);
+                        res.send('Upload OK\r\n');
+                        
+                    });
+                    dst.on('error', function (err) {
+                        console.log(err);
+                    });
+
+                }
+                else
+                {
+                    console.log('No image detected.');
+                }
+            }
+            else
+            {
+                console.log('Camera with those credentials doesn\'t exist.')
+                res.status(404).send('Camera with those credentials doesn\'t exist.');
+            }
+        })
+
+        
 
 
+    }
+    else //If the camera did not send credentials send 401 status code
+    {
+        res.status(401).header('WWW-Authenticate', 'Basic realm="Secure Area"').end('<html><body>Username & Password Required</body></html>');
+    }
 
+
+}
+
+
+exports.addImageWithToken = function (req, res)
+{
+    console.log(req.camera.nickname);
+
+    if (req.query.s == req.camera.uploadPassword) 
+    {
+
+        /** 
+         ** @TODO - Put follwing code in seperate function. Repeats in addImage()
+         **/
         if (typeof req.headers['content-type'] != 'undefined' && req.headers['content-type'] == 'image/jpeg' ) 
         {
+            var img_path = config.imagepath();
             var filename = utils.getFilenameFromHeader(req.headers['content-disposition']);
 
-            var dst = fs.createWriteStream(img_path + filename);
+            if (!fs.existsSync(img_path + req.camera._id + '/')) {
+                fs.mkdirSync(img_path + req.camera._id + '/');
+            }
+            var dst = fs.createWriteStream(img_path + req.camera._id + '/'+ filename);
             req.pipe(dst);
             
             req.on('end', function(){
-                //Once file is saved end the necessary record in the database
+                //Once file is saved enter the necessary record in the database
                 eventfile = new EventFile();
-                eventfile.cameraid = camid;
+                eventfile.cameraid = req.camera._id;
                 eventfile.time = Date();
                 eventfile.filename = filename;
 
@@ -105,8 +183,6 @@ exports.addImage = function (req, res)
                     }
                 });
 
-                filename = null;
-                dst = null;
                 res.send('Upload OK\r\n');
                 
             });
@@ -115,19 +191,22 @@ exports.addImage = function (req, res)
             });
 
         }
-
-        console.log(filename);
-
-   // }
-   // else { //If the camera did not send credentials send 401 status code
-
-    //    res.statusCode = 401;
-    //    res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
-    //    res.end('<html><body>Username & Password Required</body></html>');
-    //}
-
+        else
+        {
+            console.log('No image detected.');
+        }
+    }
+    else
+    {
+        console.log('Passwords don\'t match');
+    }
 
 }
+
+
+
+
+
 exports.getConfigInfo = function (req, res)
 {
     var config = {
