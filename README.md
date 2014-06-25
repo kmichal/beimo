@@ -27,7 +27,7 @@ Change beimo/config/config.js as required.
 
 Start beimo
 
-	$ node app,js
+	$ node app.js
 
 
 
