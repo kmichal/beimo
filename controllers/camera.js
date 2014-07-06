@@ -56,8 +56,6 @@ exports.load = function(req, res, next, cameraid){
 
 exports.getLiveImg = function (req, res)
 {
-    reqUrl = 'http://' + req.camera.ipaddress + req.camera.liveimgUrl;
-
     var options = {
         url: 'http://' + req.camera.ipaddress + req.camera.liveimgUrl,
         timeout: 1000
@@ -66,7 +64,7 @@ exports.getLiveImg = function (req, res)
     if (typeof req.camera.camusername != "undefined") {
         request.get(options, function (error, response, body) {
         	if (error) {
-                
+
                 res.writeHead(200, {'Content-Type': 'image/jpeg' });
                 res.end(fs.readFileSync(path.dirname(require.main.filename) + '/public/img/beimo_error.jpg'), 'binary');
         		console.log('could not connect to camera.' + error);
