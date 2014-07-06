@@ -6,7 +6,8 @@ var mongoose = require('mongoose')
   , fs      = require('fs')
   , basicAuth = require('basic-auth')
   , utils   = require('../config/utils')
-  , config  = require('../config/config') ;
+  , config  = require('../config/config')
+  , path = require('path'); ;
 
 
 
@@ -57,11 +58,34 @@ exports.getLiveImg = function (req, res)
 {
     reqUrl = 'http://' + req.camera.ipaddress + req.camera.liveimgUrl;
 
-    if (typeof req.camera.camusername != "undefined") {
-        request.get(reqUrl).auth(req.camera.camusername, req.camera.campassword, false).pipe(res);
+    var options = {
+        url: 'http://' + req.camera.ipaddress + req.camera.liveimgUrl,
+        timeout: 1000
     }
-    else {
-        request.get(reqUrl).pipe(res);
+
+    if (typeof req.camera.camusername != "undefined") {
+        request.get(options, function (error, response, body) {
+        	if (error) {
+                
+                res.writeHead(200, {'Content-Type': 'image/jpeg' });
+                res.end(fs.readFileSync(path.dirname(require.main.filename) + '/public/img/beimo_error.jpg'), 'binary');
+        		console.log('could not connect to camera.' + error);
+        	}
+    	}).auth(req.camera.camusername, req.camera.campassword, false).pipe(res);
+    }
+    else 
+    {
+        request.get(options, function (error, response, body) {
+        	if (!error && response.statusCode == 200) {
+        		pipe(res);
+            }
+            else
+            {
+                res.writeHead(200, {'Content-Type': 'image/jpeg' });
+                res.end(fs.readFileSync(path.dirname(require.main.filename) + '/public/img/beimo_error.jpg'), 'binary');
+                console.log('could not connect to camera.' + error);                
+            }
+        });
     }
 
 
