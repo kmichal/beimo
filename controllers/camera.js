@@ -67,7 +67,7 @@ exports.getLiveImg = function (req, res)
 
                 res.writeHead(200, {'Content-Type': 'image/jpeg' });
                 res.end(fs.readFileSync(path.dirname(require.main.filename) + '/public/img/beimo_error.jpg'), 'binary');
-        		console.log('could not connect to camera.' + error);
+        		console.log('Could not connect to camera.' + req.camera.nickname + '@' + req.camera.ipaddress);
         	}
     	}).auth(req.camera.camusername, req.camera.campassword, false).pipe(res);
     }
@@ -81,7 +81,8 @@ exports.getLiveImg = function (req, res)
             {
                 res.writeHead(200, {'Content-Type': 'image/jpeg' });
                 res.end(fs.readFileSync(path.dirname(require.main.filename) + '/public/img/beimo_error.jpg'), 'binary');
-                console.log('could not connect to camera.' + error);                
+                console.log('Could not connect to camera.' + req.camera.nickname + '@' + req.camera.ipaddress);
+                 
             }
         });
     }
