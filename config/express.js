@@ -16,9 +16,12 @@ module.exports = function (app, config, passport) {
   app.engine('ejs', require('ejs-locals'));
   app.use(morgan());
   app.use(cookieParser());
-  app.use(bodyParser());
+  app.use(bodyParser.urlencoded({extended: true}));
+  app.use(bodyParser.json());
   app.use(methodOverride());
-  app.use(session({ secret: config.sessionsecret }));
+  app.use(session({ secret: config.sessionsecret , 
+                 	saveUninitialized: true,
+                 	resave: true}));
   app.use(flash());
   // Initialize Passport!  Also use passport.session() middleware, to support
   // persistent login sessions (recommended).

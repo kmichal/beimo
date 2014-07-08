@@ -45,7 +45,36 @@
     </div>
 </div>
 
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">Disk Usage</h3>
+    </div>
+    <div class="panel-body" id="diskusagecontainer">
+    	<h5>Application disk/partition usage</h5>
+	    <div class="progress">
+			<div class="progress-bar progress-bar-danger" style="width: <%= appdiskusage['percentused'] %>%">
+				<%= appdiskusage['percentused'] %>% Used
+		    	<span class="sr-only"><%= appdiskusage['percentused'] %>% Used</span>
+		  	</div>
+			<div class="progress-bar progress-bar-success progress-bar-striped" style="width: <%= appdiskusage['percentfree'] %>%">
+				<%= appdiskusage['percentfree'] %>% Free
+		    	<span class="sr-only"><%= appdiskusage['percentfree'] %>% Free</span>
+		  	</div>
+		</div>
+		<h5>Camera images disk/partition usage</h5>
+		<div class="progress">
+			<div class="progress-bar progress-bar-danger" style="width: <%= imagesdiskusage['percentused'] %>%">
+				<%= imagesdiskusage['percentused'] %>% Used
+		    	<span class="sr-only"><%= imagesdiskusage['percentused'] %>% Used</span>
+		  	</div>
+			<div class="progress-bar progress-bar-success progress-bar-striped" style="width: <%= imagesdiskusage['percentfree'] %>%">
+				<%= imagesdiskusage['percentfree'] %>% Free
+		    	<span class="sr-only"><%= imagesdiskusage['percentfree'] %>% Free</span>
+		  	</div>
+		</div>
 
+    </div>
+</div>
 
 
 
