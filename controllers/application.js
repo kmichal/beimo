@@ -1,6 +1,8 @@
 
 var mongoose 	= require('mongoose')
 	,async		= require('async')
+	,disk 		= require('diskspace')
+	,config 	= require('../config/config')
   	,User 		= mongoose.model('User')
   	,Camera		= mongoose.model('Camera')
   	,cameraMgmt = require('../controllers/camera'); 
@@ -51,12 +53,42 @@ exports.configurepage = function(req, res) {
 	        	cameraMgmt.getAll(function (err, results) {
 	        		callback(err, results);
 	        	});
+	        },
+	        appMountSpace: function(callback){
+	        	disk.check(__dirname, function (err, total, free, status)
+				{	
+					var diskstat = [];
+						diskstat["total"] = total/1024/1024
+						diskstat["free"] = free/1024/1024;
+						diskstat["percentused"] = Math.round(100 - ((diskstat["free"]/diskstat["total"])*100));
+						diskstat["percentfree"] = 100- diskstat["percentused"];
+						diskstat["status"] = status;
+
+					console.log('percent: ' + diskstat["percentused"] + 'total: ' + total + ' free: ' + free + ' status: ' + status);
+				    callback(err, diskstat);
+				});
+	        },
+	        camImagesSpace: function(callback){
+	        	disk.check(config.imagepath(), function (err, total, free, status)
+				{	
+					var diskstat = [];
+						diskstat["total"] = total/1024/1024
+						diskstat["free"] = free/1024/1024;
+						diskstat["percentused"] = Math.round(100 - ((diskstat["free"]/diskstat["total"])*100));
+						diskstat["percentfree"] = 100- diskstat["percentused"];
+						diskstat["status"] = status;
+
+					console.log('percent: ' + diskstat["percent"] + ' free: ' + free + ' status: ' + status);
+				    callback(err, diskstat);
+				});
 	        }
 	    }, 
 	    function(e, r){
 	        res.render('configure', {
 					user : req.user,
 					cameras: r.cameras,
+					appdiskusage: r.appMountSpace,
+					imagesdiskusage: r.camImagesSpace,
 					page_title: 'Configure' 
 				});
 	    }
