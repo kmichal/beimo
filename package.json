@@ -7,11 +7,11 @@
   "dependencies": {
     "express": "4.x.x",
     "cookie-parser": ">=0.0.0",
-    "express-session":">=0.0.0",
-    "morgan":">=0.0.0",
-    "method-override":">0.0.0",
+    "express-session": ">=0.0.0",
+    "morgan": ">=0.0.0",
+    "method-override": ">0.0.0",
     "mongoose": ">0.0.0",
-    "body-parser":">=0.0.0",
+    "body-parser": ">=0.0.0",
     "connect-flash": "latest",
     "ejs": ">= 0.0.0",
     "ejs-locals": ">= 0.0.0",
@@ -20,6 +20,7 @@
     "bcrypt-nodejs": "latest",
     "async": "latest",
     "request": "latest",
-    "basic-auth": "latest"
+    "basic-auth": "latest",
+    "diskspace": "~0.1.7"
   }
 }
